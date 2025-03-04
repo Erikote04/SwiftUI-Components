@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 17.0, *)
-struct RoundedRectangleStyle: ButtonStyle {
+public struct RoundedRectangleStyle: ButtonStyle {
     let cornerRadius: ButtonAttributes.CornerSize
     let backgroundColor: Color
     let foregroundColor: Color
@@ -11,7 +11,7 @@ struct RoundedRectangleStyle: ButtonStyle {
     
     @Environment(\.isEnabled) private var isEnabled
     
-    init(
+    public init(
         cornerRadius: ButtonAttributes.CornerSize = .small,
         backgroundColor: Color = .primary,
         foregroundColor: Color = .white,
@@ -35,7 +35,7 @@ struct RoundedRectangleStyle: ButtonStyle {
         }
     }
     
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.label
                 .frame(maxWidth: size == .fillMaxWidth ? .infinity : nil)
@@ -64,7 +64,7 @@ struct RoundedRectangleStyle: ButtonStyle {
 }
 
 @available(iOS 17.0, *)
-extension ButtonStyle where Self == RoundedRectangleStyle {
+public extension ButtonStyle where Self == RoundedRectangleStyle {
     static var roundRect: RoundedRectangleStyle { .init() }
     
     static func roundRect(

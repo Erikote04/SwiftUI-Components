@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct CircleStyle: ButtonStyle {
+public struct CircleStyle: ButtonStyle {
     let backgroundColor: Color
     let foregroundColor: Color
     let style: ButtonAttributes.Style
@@ -10,7 +10,7 @@ struct CircleStyle: ButtonStyle {
     
     @Environment(\.isEnabled) private var isEnabled
     
-    init(
+    public init(
         backgroundColor: Color = .primary,
         foregroundColor: Color = .white,
         style: ButtonAttributes.Style = .primary,
@@ -32,7 +32,7 @@ struct CircleStyle: ButtonStyle {
         }
     }
     
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: size.rawValue, height: size.rawValue)
             .foregroundStyle(foregroundColor)
@@ -55,7 +55,7 @@ struct CircleStyle: ButtonStyle {
 }
 
 @available(iOS 15.0, *)
-extension ButtonStyle where Self == CircleStyle {
+public extension ButtonStyle where Self == CircleStyle {
     static var circle: CircleStyle { .init() }
     
     static func circle(

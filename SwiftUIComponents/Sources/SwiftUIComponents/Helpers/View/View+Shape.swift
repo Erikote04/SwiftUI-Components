@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
-extension View {
+public extension View {
     func roundCorners(_ radius: CGFloat = 8) -> some View {
         self.clipShape(.rect(cornerRadius: radius))
     }

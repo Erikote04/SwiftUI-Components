@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum Corner: CaseIterable {
+public enum Corner: CaseIterable, Sendable {
     case all
     case topLeft
     case topRight
@@ -9,16 +9,16 @@ enum Corner: CaseIterable {
 }
 
 @available(iOS 13.0, *)
-struct RoundCorner: Shape {
+public struct RoundCorner: Shape {
     let corners: [Corner]
     let radius: CGFloat
     
-    init(corners: [Corner] = [.all], radius: CGFloat = 8) {
+    public init(corners: [Corner] = [.all], radius: CGFloat = 8) {
         self.corners = corners
         self.radius = radius
     }
     
-    func path(in rect: CGRect) -> Path {
+    public func path(in rect: CGRect) -> Path {
         var path = Path()
         let cornerRadii = CGSize(width: radius, height: radius)
         
@@ -41,7 +41,7 @@ struct RoundCorner: Shape {
 }
 
 @available(iOS 13.0, *)
-extension Shape where Self == RoundCorner {
+public extension Shape where Self == RoundCorner {
     static var roundCorners: RoundCorner { .init() }
     
     static func roundCorners(_ corner: Corner, _ radius: CGFloat = 8) -> RoundCorner {

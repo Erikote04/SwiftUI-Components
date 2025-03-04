@@ -1,11 +1,11 @@
 import SwiftUI
 
-enum ButtonAttributes {
-    enum Size { case fit, fillMaxWidth }
-    enum State { case enabled, disabled, loading }
-    enum Style { case primary, secondary, custom }
+public enum ButtonAttributes {
+    public enum Size { case fit, fillMaxWidth }
+    public enum State { case enabled, disabled, loading }
+    public enum Style { case primary, secondary, custom }
     
-    enum CornerSize: CGFloat {
+    public enum CornerSize: CGFloat {
         /// size: 4
         case tiny = 4
         /// size: 8
@@ -18,7 +18,7 @@ enum ButtonAttributes {
         case large = 24
     }
     
-    enum FrameSize: CGFloat {
+    public enum FrameSize: CGFloat {
         /// size: 44
         case accessible = 44
     }

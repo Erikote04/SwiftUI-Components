@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 17.0, *)
-struct CapsuleStyle: ButtonStyle {
+public struct CapsuleStyle: ButtonStyle {
     let backgroundColor: Color?
     let borderColor: Color
     let foregroundColor: Color
@@ -11,7 +11,7 @@ struct CapsuleStyle: ButtonStyle {
     
     @Environment(\.isEnabled) private var isEnabled
     
-    init(
+    public init(
         backgroundColor: Color? = nil,
         borderColor: Color = .primary,
         foregroundColor: Color = .primary,
@@ -43,7 +43,7 @@ struct CapsuleStyle: ButtonStyle {
         }
     }
     
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
         let buttonBackgroundColor: AnyView = backgroundColor.map { color in
             AnyView(Capsule().fill(color))
         } ?? AnyView(Capsule().fill(.background))
@@ -74,7 +74,7 @@ struct CapsuleStyle: ButtonStyle {
 }
 
 @available(iOS 17.0, *)
-extension ButtonStyle where Self == CapsuleStyle {
+public extension ButtonStyle where Self == CapsuleStyle {
     static var capsule: CapsuleStyle { .init() }
     
     static func capsule(

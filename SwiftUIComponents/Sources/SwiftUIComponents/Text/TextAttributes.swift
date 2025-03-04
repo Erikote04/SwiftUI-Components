@@ -1,10 +1,10 @@
 import SwiftUI
 
-enum TextAttributes {
-    enum FontWeight: CaseIterable { case regular, bold }
-    enum TextColor { case primary, secondary, custom }
+public enum TextAttributes {
+    public enum FontWeight: CaseIterable { case regular, bold }
+    public enum TextColor { case primary, secondary, custom }
     
-    enum Font: CaseIterable {
+    public enum Font: CaseIterable {
         /// size: 44
         case h1
         /// size: 42
@@ -38,7 +38,7 @@ enum TextAttributes {
     }
 }
 
-extension TextAttributes.Font {
+public extension TextAttributes.Font {
     func fontSize() -> CGFloat {
         switch self {
         case .h1: return 44
@@ -61,7 +61,7 @@ extension TextAttributes.Font {
 }
 
 @available(iOS 13.0, *)
-extension TextAttributes.FontWeight {
+public extension TextAttributes.FontWeight {
     var fontWeight: Font.Weight {
         switch self {
         case .regular: return .regular

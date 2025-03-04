@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct Input<L: View>: View {
+public struct Input<L: View>: View {
     @Binding var isChecked: Bool
     let style: InputAttributes.InputStyle
     let size: InputAttributes.ImageSize
@@ -10,7 +10,7 @@ struct Input<L: View>: View {
     let imageColor: Color
     let label: () -> L
     
-    init(
+    public init(
         isChecked: Binding<Bool>,
         style: InputAttributes.InputStyle = .radio,
         size: InputAttributes.ImageSize = .default,
@@ -56,7 +56,7 @@ struct Input<L: View>: View {
          }
      }
     
-    var body: some View {
+    public var body: some View {
         HStack(spacing: .zero) {
             Button { isChecked.toggle() } label: {
                 VStack {

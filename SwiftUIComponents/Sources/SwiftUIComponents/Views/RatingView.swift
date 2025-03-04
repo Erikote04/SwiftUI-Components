@@ -1,14 +1,14 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct RatingView: View {
+public struct RatingView: View {
     @Binding var rating: Int
     let onImage: Image
     let offImage: Image?
     let offColor: Color
     let onColor: Color
     
-    init(
+    public init(
         rating: Binding<Int>,
         onImage: Image = .init(systemName: "star.fill"),
         offImage: Image? = nil,
@@ -22,7 +22,7 @@ struct RatingView: View {
         self.offColor = offColor
     }
     
-    var body: some View {
+    public var body: some View {
         HStack {
             ForEach(1..<6, id: \.self) { number in
                 Button { rating = number } label: {

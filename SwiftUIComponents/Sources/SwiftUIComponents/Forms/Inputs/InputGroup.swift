@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-struct InputGroup: View {
+public struct InputGroup: View {
     let options: [String]
     @Binding var selectedIndices: Set<Int>
     let isMultipleChoice: Bool
@@ -11,7 +11,7 @@ struct InputGroup: View {
     let radioStyle: InputAttributes.InputStyle
     let radioSize: InputAttributes.ImageSize
     
-    init(
+    public init(
         options: [String],
         selectedIndices: Binding<Set<Int>>,
         isMultipleChoice: Bool = false,
@@ -31,7 +31,7 @@ struct InputGroup: View {
         self.radioSize = radioSize
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(options.indices, id: \.self) { index in
                 let isSelected = Binding<Bool>(

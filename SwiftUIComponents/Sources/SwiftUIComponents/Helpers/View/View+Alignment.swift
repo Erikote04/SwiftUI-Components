@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
-extension View {
+public extension View {
     
     @ViewBuilder
     func horizontalAlignment(_ alignment: Alignment = .center) -> some View {

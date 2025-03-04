@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 16.0, *)
-struct Text: View {
+public struct Text: View {
     let text: String
     let font: TextAttributes.Font
     let family: Font?
@@ -10,7 +10,7 @@ struct Text: View {
     let color: Color
     let alignment: TextAlignment
     
-    init(
+    public init(
         _ text: String,
         font: TextAttributes.Font = .body,
         family: Font? = nil,
@@ -36,7 +36,7 @@ struct Text: View {
         }
     }
     
-    var body: some View {
+    public var body: some View {
         SwiftUI.Text(text)
             .textDecorator(font: font, family: family, weight: weight, color: foregroundColor)
             .multilineTextAlignment(alignment)
@@ -44,7 +44,7 @@ struct Text: View {
 }
 
 @available(iOS 16.0, *)
-struct TextDecorator: ViewModifier {
+public struct TextDecorator: ViewModifier {
     let font: TextAttributes.Font
     let family: Font?
     let weight: TextAttributes.FontWeight
@@ -52,7 +52,7 @@ struct TextDecorator: ViewModifier {
     
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .font(family ?? dynamicFont(for: font.fontSize()))
             .if(family != nil) { text in
@@ -83,7 +83,7 @@ struct TextDecorator: ViewModifier {
 }
 
 @available(iOS 16.0, *)
-extension View {
+public extension View {
     func textDecorator(font: TextAttributes.Font, family: Font? = nil, weight: TextAttributes.FontWeight, color: Color) -> some View {
         self.modifier(TextDecorator(font: font, family: family, weight: weight, color: color))
     }

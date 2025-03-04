@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 16.0, *)
-struct AnnotatedText: View {
+public struct AnnotatedText: View {
     let text: String
     let font: TextAttributes.Font
     let family: Font?
@@ -13,7 +13,7 @@ struct AnnotatedText: View {
     
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
-    init(
+    public init(
         _ text: String,
         font: TextAttributes.Font = .body,
         family: Font? = nil,
@@ -41,7 +41,7 @@ struct AnnotatedText: View {
         }
     }
     
-    var body: some View {
+    public var body: some View {
         let text = replaceAnnotations(in: text)
         SwiftUI.Text(text)
             .textDecorator(font: font, family: family, weight: weight, color: foregroundColor)
@@ -154,7 +154,7 @@ struct AnnotatedText: View {
 }
 
 @available(iOS 15, *)
-extension AttributedString {
+public extension AttributedString {
     func removingTags(_ tags: [String]) -> AttributedString {
         var mutableAttributedString = self
         

@@ -1,14 +1,14 @@
 import Combine
 import SwiftUI
 
-extension Notification {
+public extension Notification {
     fileprivate var keyboardHeight: CGFloat {
         return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
     }
 }
 
 @available(iOS 13.0, *)
-extension Publishers {
+public extension Publishers {
     fileprivate static var keyboardHeight: AnyPublisher<CGFloat, Never> {
         let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }
@@ -32,10 +32,10 @@ extension Publishers {
 }
 
 @available(iOS 15.0, *)
-struct KeyboardAvoiding: ViewModifier {
+public struct KeyboardAvoiding: ViewModifier {
     @State private var keyboardActiveAdjustment: CGFloat = 0
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .padding(.top, keyboardActiveAdjustment)
             .safeAreaInset(edge: .bottom, spacing: keyboardActiveAdjustment) {
@@ -48,10 +48,10 @@ struct KeyboardAvoiding: ViewModifier {
 }
 
 @available(iOS 13.0, *)
-struct HideWhenKeyboardAppears: ViewModifier {
+public struct HideWhenKeyboardAppears: ViewModifier {
     @State private var isKeyboardVisible: Bool = false
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         Group {
             if !isKeyboardVisible {
                 content
@@ -64,7 +64,7 @@ struct HideWhenKeyboardAppears: ViewModifier {
 }
 
 @available(iOS 15.0, *)
-extension View {
+public extension View {
     func keyboardAvoiding() -> some View {
         modifier(KeyboardAvoiding())
     }
