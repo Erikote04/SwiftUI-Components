@@ -4,18 +4,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftUI Components",
+    name: "SwiftUIComponents",
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "SwiftUI Components",
-            targets: ["SwiftUI Components"]),
+            name: "SwiftUIComponents",
+            targets: ["SwiftUIComponents"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "SwiftUI Components"),
-
+        .target(name: "SwiftUIComponents"),
     ]
 )
