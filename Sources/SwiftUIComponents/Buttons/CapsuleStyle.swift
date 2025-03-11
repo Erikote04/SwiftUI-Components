@@ -2,6 +2,7 @@ import SwiftUI
 
 @available(iOS 17.0, *)
 public struct CapsuleStyle: ButtonStyle {
+    let padding: EdgeInsets
     let backgroundColor: Color?
     let borderColor: Color
     let foregroundColor: Color
@@ -12,6 +13,7 @@ public struct CapsuleStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled
     
     public init(
+        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
         backgroundColor: Color? = nil,
         borderColor: Color = .primary,
         foregroundColor: Color = .primary,
@@ -19,6 +21,7 @@ public struct CapsuleStyle: ButtonStyle {
         size: ButtonAttributes.Size = .fillMaxWidth,
         state: ButtonAttributes.State = .enabled
     ) {
+        self.padding = padding
         self.backgroundColor = backgroundColor
         self.borderColor = borderColor
         self.foregroundColor = foregroundColor
@@ -53,7 +56,7 @@ public struct CapsuleStyle: ButtonStyle {
                 .frame(maxWidth: size == .fillMaxWidth ? .infinity : nil)
         }
         .font(.system(.title2).bold())
-        .padding(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
+        .padding(padding)
         .foregroundColor(buttonForegroundColor)
         .background(buttonBackgroundColor)
         .opacity(configuration.isPressed || !isEnabled ? 0.5 : 1)
@@ -68,6 +71,7 @@ public struct CapsuleStyle: ButtonStyle {
                 }
             } else {
                 Capsule().stroke(buttonBorderColor, lineWidth: 2)
+                    .opacity(configuration.isPressed || !isEnabled ? 0.5 : 1)
             }
         }
     }
@@ -78,6 +82,7 @@ public extension ButtonStyle where Self == CapsuleStyle {
     static var capsule: CapsuleStyle { .init() }
     
     static func capsule(
+        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
         backgroundColor: Color? = nil,
         borderColor: Color = .primary,
         foregroundColor: Color = .primary,
@@ -86,6 +91,7 @@ public extension ButtonStyle where Self == CapsuleStyle {
         state: ButtonAttributes.State = .enabled
     ) -> CapsuleStyle {
         CapsuleStyle(
+            padding: padding,
             backgroundColor: backgroundColor,
             borderColor: borderColor,
             foregroundColor: foregroundColor,

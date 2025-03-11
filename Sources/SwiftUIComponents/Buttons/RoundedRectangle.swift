@@ -2,23 +2,27 @@ import SwiftUI
 
 @available(iOS 17.0, *)
 public struct RoundedRectangleStyle: ButtonStyle {
+    let padding: EdgeInsets
     let cornerRadius: ButtonAttributes.CornerSize
     let backgroundColor: Color
-    let foregroundColor: Color
+    let foregroundColor: Color?
     let style: ButtonAttributes.Style
     let size: ButtonAttributes.Size
     let state: ButtonAttributes.State
     
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
     
     public init(
+        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
         cornerRadius: ButtonAttributes.CornerSize = .small,
         backgroundColor: Color = .primary,
-        foregroundColor: Color = .white,
+        foregroundColor: Color? = nil,
         style: ButtonAttributes.Style = .primary,
         size: ButtonAttributes.Size = .fillMaxWidth,
         state: ButtonAttributes.State = .enabled
     ) {
+        self.padding = padding
         self.cornerRadius = cornerRadius
         self.backgroundColor = backgroundColor
         self.foregroundColor = foregroundColor
@@ -35,14 +39,18 @@ public struct RoundedRectangleStyle: ButtonStyle {
         }
     }
     
+    var buttonForegroundColor: Color {
+        foregroundColor ?? (colorScheme == .dark && style == .primary ? .black : .white)
+    }
+    
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
             configuration.label
                 .frame(maxWidth: size == .fillMaxWidth ? .infinity : nil)
         }
         .font(.system(.title2).bold())
-        .padding(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
-        .foregroundColor(foregroundColor)
+        .padding(padding)
+        .foregroundColor(buttonForegroundColor)
         .background(
             RoundedRectangle(cornerRadius: cornerRadius.rawValue)
                 .fill(buttonBackgroundColor)
@@ -56,7 +64,7 @@ public struct RoundedRectangleStyle: ButtonStyle {
                     
                     ProgressView()
                         .progressViewStyle(.circular)
-                        .tint(foregroundColor)
+                        .tint(buttonForegroundColor)
                 }
             }
         }
@@ -68,14 +76,16 @@ public extension ButtonStyle where Self == RoundedRectangleStyle {
     static var roundRect: RoundedRectangleStyle { .init() }
     
     static func roundRect(
+        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
         cornerRadius: ButtonAttributes.CornerSize = .small,
         backgroundColor: Color = .primary,
-        foregroundColor: Color = .white,
+        foregroundColor: Color? = nil,
         style: ButtonAttributes.Style = .primary,
         size: ButtonAttributes.Size = .fillMaxWidth,
         state: ButtonAttributes.State = .enabled
     ) -> RoundedRectangleStyle {
         RoundedRectangleStyle(
+            padding: padding,
             cornerRadius: cornerRadius,
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
