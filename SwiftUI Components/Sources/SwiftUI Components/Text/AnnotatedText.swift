@@ -1,10 +1,10 @@
 import SwiftUI
 
 @available(iOS 16.0, *)
-public struct AnnotatedText: View {
+struct AnnotatedText: View {
     let text: String
-    let font: Font?
-    let size: TextAttributes.FontSize
+    let font: TextAttributes.Font
+    let family: Font?
     let weight: TextAttributes.FontWeight
     let tint: TextAttributes.TextColor
     let color: Color
@@ -13,10 +13,10 @@ public struct AnnotatedText: View {
     
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     
-    public init(
+    init(
         _ text: String,
-        font: Font? = nil,
-        size: TextAttributes.FontSize = .body,
+        font: TextAttributes.Font = .body,
+        family: Font? = nil,
         weight: TextAttributes.FontWeight = .regular,
         tint: TextAttributes.TextColor = .primary,
         color: Color = .primary,
@@ -25,7 +25,7 @@ public struct AnnotatedText: View {
     ) {
         self.text = text
         self.font = font
-        self.size = size
+        self.family = family
         self.weight = weight
         self.tint = tint
         self.color = color
@@ -41,10 +41,10 @@ public struct AnnotatedText: View {
         }
     }
     
-    public var body: some View {
+    var body: some View {
         let text = replaceAnnotations(in: text)
         SwiftUI.Text(text)
-            .textDecorator(font: font, size: size, weight: weight, color: foregroundColor)
+            .textDecorator(font: font, family: family, weight: weight, color: foregroundColor)
             .multilineTextAlignment(alignment)
             .environment(
                 \.openURL,
@@ -83,7 +83,7 @@ public struct AnnotatedText: View {
         ?? AttributedString(modifiedString)
         
         let scaleFactor = getScaleFactor()
-        let baseFontSize = size.fontSize()
+        let baseFontSize = font.fontSize()
         let dynamicFontSize = baseFontSize * scaleFactor
         
         attributedResult.font = Font.system(size: dynamicFontSize, weight: weight.fontWeight)
@@ -94,7 +94,7 @@ public struct AnnotatedText: View {
                 { range, _ in
                     var attributedString = AttributedString(attributedResult[range])
                     attributedString = attributedString.removingTags(["<strong>", "</strong>"])
-                    attributedString.font = Font.system(size: size.fontSize(), weight: .bold)
+                    attributedString.font = Font.system(size: font.fontSize(), weight: .bold)
                     return attributedString
                 }
             ),
@@ -154,7 +154,7 @@ public struct AnnotatedText: View {
 }
 
 @available(iOS 15, *)
-public extension AttributedString {
+extension AttributedString {
     func removingTags(_ tags: [String]) -> AttributedString {
         var mutableAttributedString = self
         

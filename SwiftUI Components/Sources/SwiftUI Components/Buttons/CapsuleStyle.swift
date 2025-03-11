@@ -1,93 +1,93 @@
 import SwiftUI
 
 @available(iOS 17.0, *)
-public struct RoundedRectangleStyle: ButtonStyle {
-    let padding: EdgeInsets
-    let cornerRadius: ButtonAttributes.CornerSize
-    let backgroundColor: Color
-    let foregroundColor: Color?
+struct CapsuleStyle: ButtonStyle {
+    let backgroundColor: Color?
+    let borderColor: Color
+    let foregroundColor: Color
     let style: ButtonAttributes.Style
     let size: ButtonAttributes.Size
     let state: ButtonAttributes.State
     
-    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
     
-    public init(
-        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
-        cornerRadius: ButtonAttributes.CornerSize = .small,
-        backgroundColor: Color = .primary,
-        foregroundColor: Color? = nil,
+    init(
+        backgroundColor: Color? = nil,
+        borderColor: Color = .primary,
+        foregroundColor: Color = .primary,
         style: ButtonAttributes.Style = .primary,
         size: ButtonAttributes.Size = .fillMaxWidth,
         state: ButtonAttributes.State = .enabled
     ) {
-        self.padding = padding
-        self.cornerRadius = cornerRadius
         self.backgroundColor = backgroundColor
+        self.borderColor = borderColor
         self.foregroundColor = foregroundColor
         self.style = style
         self.size = size
         self.state = state
     }
     
-    var buttonBackgroundColor: Color {
+    var buttonBorderColor: Color {
         switch style {
         case .primary: return .primary
         case .secondary: return .secondary
-        case .custom: return backgroundColor
+        case .custom: return borderColor
         }
     }
     
     var buttonForegroundColor: Color {
-        foregroundColor ?? (colorScheme == .dark && style == .primary ? .black : .white)
+        switch style {
+        case .primary: return .primary
+        case .secondary: return .secondary
+        case .custom: return foregroundColor
+        }
     }
     
-    public func makeBody(configuration: Configuration) -> some View {
-        HStack {
+    func makeBody(configuration: Configuration) -> some View {
+        let buttonBackgroundColor: AnyView = backgroundColor.map { color in
+            AnyView(Capsule().fill(color))
+        } ?? AnyView(Capsule().fill(.background))
+        
+        return HStack {
             configuration.label
                 .frame(maxWidth: size == .fillMaxWidth ? .infinity : nil)
         }
         .font(.system(.title2).bold())
-        .padding(padding)
+        .padding(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
         .foregroundColor(buttonForegroundColor)
-        .background(
-            RoundedRectangle(cornerRadius: cornerRadius.rawValue)
-                .fill(buttonBackgroundColor)
-        )
+        .background(buttonBackgroundColor)
         .opacity(configuration.isPressed || !isEnabled ? 0.5 : 1)
         .overlay {
             if state == .loading {
                 ZStack {
-                    RoundedRectangle(cornerRadius: cornerRadius.rawValue)
-                        .fill(buttonBackgroundColor)
+                    buttonBackgroundColor
                     
                     ProgressView()
                         .progressViewStyle(.circular)
                         .tint(buttonForegroundColor)
                 }
+            } else {
+                Capsule().stroke(buttonBorderColor, lineWidth: 2)
             }
         }
     }
 }
 
 @available(iOS 17.0, *)
-public extension ButtonStyle where Self == RoundedRectangleStyle {
-    static var roundRect: RoundedRectangleStyle { .init() }
+extension ButtonStyle where Self == CapsuleStyle {
+    static var capsule: CapsuleStyle { .init() }
     
-    static func roundRect(
-        padding: EdgeInsets = .init(top: 12, leading: 24, bottom: 12, trailing: 24),
-        cornerRadius: ButtonAttributes.CornerSize = .small,
-        backgroundColor: Color = .primary,
-        foregroundColor: Color? = nil,
+    static func capsule(
+        backgroundColor: Color? = nil,
+        borderColor: Color = .primary,
+        foregroundColor: Color = .primary,
         style: ButtonAttributes.Style = .primary,
         size: ButtonAttributes.Size = .fillMaxWidth,
         state: ButtonAttributes.State = .enabled
-    ) -> RoundedRectangleStyle {
-        RoundedRectangleStyle(
-            padding: padding,
-            cornerRadius: cornerRadius,
+    ) -> CapsuleStyle {
+        CapsuleStyle(
             backgroundColor: backgroundColor,
+            borderColor: borderColor,
             foregroundColor: foregroundColor,
             style: style,
             size: size,

@@ -1,19 +1,18 @@
 import SwiftUI
 
 @available(iOS 15.0, *)
-public struct CircleStyle: ButtonStyle {
+struct CircleStyle: ButtonStyle {
     let backgroundColor: Color
-    let foregroundColor: Color?
+    let foregroundColor: Color
     let style: ButtonAttributes.Style
     let state: ButtonAttributes.State
     let size: ButtonAttributes.FrameSize
     
-    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.isEnabled) private var isEnabled
     
-    public init(
+    init(
         backgroundColor: Color = .primary,
-        foregroundColor: Color? = nil,
+        foregroundColor: Color = .white,
         style: ButtonAttributes.Style = .primary,
         state: ButtonAttributes.State = .enabled,
         size: ButtonAttributes.FrameSize = .accessible
@@ -33,14 +32,10 @@ public struct CircleStyle: ButtonStyle {
         }
     }
     
-    var buttonForegroundColor: Color {
-        foregroundColor ?? (colorScheme == .dark && style == .primary ? .black : .white)
-    }
-    
-    public func makeBody(configuration: Configuration) -> some View {
+    func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: size.rawValue, height: size.rawValue)
-            .foregroundStyle(buttonForegroundColor)
+            .foregroundStyle(foregroundColor)
             .background(buttonBackgroundColor)
             .opacity(configuration.isPressed || !isEnabled ? 0.5 : 1)
             .clipShape(.circle)
@@ -52,7 +47,7 @@ public struct CircleStyle: ButtonStyle {
                         
                         ProgressView()
                             .progressViewStyle(.circular)
-                            .tint(buttonBackgroundColor)
+                            .tint(foregroundColor)
                     }
                 }
             }
@@ -60,12 +55,12 @@ public struct CircleStyle: ButtonStyle {
 }
 
 @available(iOS 15.0, *)
-public extension ButtonStyle where Self == CircleStyle {
+extension ButtonStyle where Self == CircleStyle {
     static var circle: CircleStyle { .init() }
     
     static func circle(
         backgroundColor: Color = .primary,
-        foregroundColor: Color? = nil,
+        foregroundColor: Color = .white,
         style: ButtonAttributes.Style = .primary,
         state: ButtonAttributes.State = .enabled,
         size: ButtonAttributes.FrameSize = .accessible
@@ -77,18 +72,5 @@ public extension ButtonStyle where Self == CircleStyle {
             state: state,
             size: size
         )
-    }
-}
-
-@available(iOS 15.0, *)
-public extension View {
-    func circleButtonStyle(
-        _ style: CircleStyle = .init(),
-        accessibilityLabel: String
-    ) -> some View {
-        self
-            .buttonStyle(style)
-            .accessibilityAddTraits(.isButton)
-            .accessibilityLabel(accessibilityLabel)
     }
 }
