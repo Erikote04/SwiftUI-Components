@@ -4,7 +4,7 @@ public enum TextAttributes {
     public enum FontWeight: CaseIterable { case regular, bold }
     public enum TextColor { case primary, secondary, custom }
     
-    public enum Font: CaseIterable {
+    public enum FontSize: CaseIterable {
         /// size: 44
         case h1
         /// size: 42
@@ -38,7 +38,7 @@ public enum TextAttributes {
     }
 }
 
-public extension TextAttributes.Font {
+public extension TextAttributes.FontSize {
     func fontSize() -> CGFloat {
         switch self {
         case .h1: return 44

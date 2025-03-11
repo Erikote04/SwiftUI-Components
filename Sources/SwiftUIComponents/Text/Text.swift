@@ -3,8 +3,8 @@ import SwiftUI
 @available(iOS 16.0, *)
 public struct Text: View {
     let text: String
-    let font: TextAttributes.Font
-    let family: Font?
+    let font: Font?
+    let size: TextAttributes.FontSize
     let weight: TextAttributes.FontWeight
     let tint: TextAttributes.TextColor
     let color: Color
@@ -12,16 +12,16 @@ public struct Text: View {
     
     public init(
         _ text: String,
-        font: TextAttributes.Font = .body,
-        family: Font? = nil,
+        font: Font? = nil,
+        size: TextAttributes.FontSize = .body,
         weight: TextAttributes.FontWeight = .regular,
         tint: TextAttributes.TextColor = .primary,
         color: Color = .primary,
         alignment: TextAlignment = .center
     ) {
         self.text = text
-        self.family = family
         self.font = font
+        self.size = size
         self.weight = weight
         self.tint = tint
         self.color = color
@@ -38,15 +38,15 @@ public struct Text: View {
     
     public var body: some View {
         SwiftUI.Text(text)
-            .textDecorator(font: font, family: family, weight: weight, color: foregroundColor)
+            .textDecorator(font: font, size: size, weight: weight, color: foregroundColor)
             .multilineTextAlignment(alignment)
     }
 }
 
 @available(iOS 16.0, *)
 public struct TextDecorator: ViewModifier {
-    let font: TextAttributes.Font
-    let family: Font?
+    let font: Font?
+    let size: TextAttributes.FontSize
     let weight: TextAttributes.FontWeight
     let color: Color
     
@@ -54,8 +54,8 @@ public struct TextDecorator: ViewModifier {
     
     public func body(content: Content) -> some View {
         content
-            .font(family ?? dynamicFont(for: font.fontSize()))
-            .if(family != nil) { text in
+            .font(font ?? dynamicFont(for: size.fontSize()))
+            .if(font != nil) { text in
                 text.fontWeight(weight.fontWeight)
             }
             .foregroundStyle(color)
@@ -84,7 +84,7 @@ public struct TextDecorator: ViewModifier {
 
 @available(iOS 16.0, *)
 public extension View {
-    func textDecorator(font: TextAttributes.Font, family: Font? = nil, weight: TextAttributes.FontWeight, color: Color) -> some View {
-        self.modifier(TextDecorator(font: font, family: family, weight: weight, color: color))
+    func textDecorator(font: Font? = nil, size: TextAttributes.FontSize, weight: TextAttributes.FontWeight, color: Color) -> some View {
+        self.modifier(TextDecorator(font: font, size: size, weight: weight, color: color))
     }
 }
